@@ -1,12 +1,9 @@
-import logo from './images/logo.svg';
-
+import Header from "./Header";
 
 function App() {
   return (
     <div className="page__inner">
-      <header className="header">
-        <a href="#" className="logo opacity"><img src={logo} alt="Логотип Mesto" className="logo__image" /></a>
-      </header>
+      <Header />
       <main className="content">
         <section className="profile">
           <div className="profile__inner">
