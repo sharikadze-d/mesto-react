@@ -1,31 +1,13 @@
-import Header from "./Header";
+import Header from './Header';
+import Main from './Main.js';
+import Footer from './Footer.js';
 
 function App() {
   return (
     <div className="page__inner">
       <Header />
-      <main className="content">
-        <section className="profile">
-          <div className="profile__inner">
-            <div className="profile__avatar-wrapper">
-              <img src="#" alt="Аватар профиля" className="profile__avatar" />
-            </div>
-            <div className="profile__info">
-              <div className="profile__name-wrapper">
-                <h1 className="profile__name"></h1>
-                <button type="button" className="profile__edit-button opacity"></button>
-              </div>
-              <p className="profile__description"></p>
-            </div>
-          </div>
-          <button type="button" className="profile__add-button opacity"></button>
-        </section>
-
-        <section className="elements"></section>
-      </main>
-      <footer className="footer">
-        <p className="footer__text">&copy; 2022 Mesto Russia</p>
-      </footer>
+      <Main />
+      <Footer />
 
       <div className="popup popup_type_profile">
         <div className="popup__container">
