@@ -1,23 +1,34 @@
 import api from '../utils/api.js'
 import React from 'react';
+import Card from './Card.js';
 
 export default function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
 
   const [userName, setUserName] = React.useState('');
   const [userDescription, setUserDescription] = React.useState('');
   const [userAvatar, setUserAvatar] = React.useState('');
+  const [cards, setCards] = React.useState([]);
+
+
+
 
   React.useEffect(() => {
-    api.getUserData()
-    .then(res => {
-      setUserName(res.name);
-      setUserDescription(res.about);
-      setUserAvatar(res.avatar);
-    })
-    .catch(() => {
-      console.log(new Error('Ошибка загрузки'));
-    })
-  })
+    Promise.all([api.getUserData(), api.getInitialCardsData()])
+      .then(data => {
+        setUserName(data[0].name);
+        setUserDescription(data[0].about);
+        setUserAvatar(data[0].avatar);
+        // console.log(cards)
+        // console.log(data[1]);
+        setCards(data[1]);
+        // console.log(cards)
+      })
+      
+      .catch(() => {
+        console.log(new Error('Ошибка загрузки'));
+      })
+  } , [])
+
   return (
   <main className="content">
     <section className="profile">
@@ -36,6 +47,11 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
       <button type="button" className="profile__add-button opacity" onClick={onAddPlace}></button>
     </section>
 
-    <section className="elements"></section>
+    <section className="elements">{
+      cards.map((card) => {
+        return(
+        <Card card={card} key={card._id} />)
+      })
+    }</section>
   </main>
   );}
