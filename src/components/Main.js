@@ -3,7 +3,7 @@ import React from 'react';
 import Card from './Card.js';
 
 export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-
+  //State-переменные
   const [userName, setUserName] = React.useState('');
   const [userDescription, setUserDescription] = React.useState('');
   const [userAvatar, setUserAvatar] = React.useState('');
@@ -11,17 +11,14 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
 
 
 
-
+  //Наполнение страницы про загрузке
   React.useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCardsData()])
       .then(data => {
         setUserName(data[0].name);
         setUserDescription(data[0].about);
         setUserAvatar(data[0].avatar);
-        // console.log(cards)
-        // console.log(data[1]);
         setCards(data[1]);
-        // console.log(cards)
       })
       
       .catch(() => {
@@ -48,7 +45,7 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
     </section>
 
     <section className="elements">{
-      cards.map((card) => {
+      cards.map((card) => { //Рендер карточек из массива с сервера
         return(
         <Card card={card} key={card._id} onCardClick={onCardClick} />)
       })

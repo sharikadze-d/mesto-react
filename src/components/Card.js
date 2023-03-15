@@ -1,6 +1,6 @@
 export default function Card({card, onCardClick}) {
-
-  function handleClick() {
+  //Обработка клика с передачей данных карточки
+  function handleClick() { 
     onCardClick(card);
   }
 

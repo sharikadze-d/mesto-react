@@ -3,16 +3,18 @@ import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm';
 import React from 'react';
-import { numberLiteral } from '@babel/types';
 import ImagePopup from './ImagePopup';
 
 function App() {
+
+  //State-переменные
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState();
   
+  //Обработчики кликов
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
@@ -99,16 +101,8 @@ function App() {
        onClose={closeAllPopups}
        isOpen={isImagePopupOpen}
       />
-
-      <div className="popup popup_type_picture">
-        <figure className="popup__image-container">
-          <button type="button" className="popup__close-btn opacity"></button>
-          <img src="#" alt="" className="popup__image" />
-          <figcaption className="popup__description"></figcaption>
-        </figure>
-      </div>
     
-      <div className="popup popup_type_confirm">
+      {/* <div className="popup popup_type_confirm">
         <div className="popup__container">
           <button type="button" className="popup__close-btn opacity"></button>
           <form className="popup__form" name="confirm-form" noValidate>
@@ -117,21 +111,7 @@ function App() {
             data-button-text="Да" data-button-loading-text="Удаление...">Да</button>
         </form>
         </div>
-      </div>
-
-      <template id="card">
-        <article className="element">
-          <button type="button" className="element__delete-btn opacity"></button>
-          <img src="#" alt="" className="element__image" />
-          <div className="element__caption">
-            <h2 className="element__title"></h2>
-            <div className="element__inner">
-              <button type="button" className="element__like-btn"></button>
-              <p className="element__like-counter"></p>
-            </div>
-          </div>
-        </article>
-      </template>
+      </div> */}
     </div>
   );
 }
