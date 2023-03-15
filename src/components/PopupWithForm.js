@@ -1,4 +1,4 @@
-export default function PopupWithForm({ name, title, children, isOpen, onClose }) {
+export default function PopupWithForm({ name, title, children, isOpen, onClose, buttonText }) {
   return (
     <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}>
         <div className="popup__container">
@@ -6,6 +6,8 @@ export default function PopupWithForm({ name, title, children, isOpen, onClose }
           <form className="popup__form" name={`${name}-input-form`} noValidate>
             <h3 className="popup__title">{title}</h3>
             {children}
+            <button type="submit" className="popup__save-btn button-opacity"
+              data-button-loading-text="Сохранение..." data-button-text="Сохранить">{buttonText}</button>
           </form>
         </div>
       </div>

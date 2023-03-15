@@ -12,7 +12,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState();
+  const [selectedCard, setSelectedCard] = React.useState(null);
   
   //Обработчики кликов
   function handleEditAvatarClick() {
@@ -55,47 +55,32 @@ function App() {
         title="Редактировать профиль"
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-        children={(
-          <>
+        buttonText="Сохранить">
             <input required id="name" type="text" name="name" placeholder="Имя" className="popup__item" minLength="2" maxLength="40" />
             <span className="name-error popup__error"></span>
             <input required id="job" type="text" name="about" placeholder="Профессия" className="popup__item" minLength="2" maxLength="200" />
             <span className="job-error popup__error"></span>
-            <button type="submit" className="popup__save-btn button-opacity"
-              data-button-loading-text="Сохранение..." data-button-text="Сохранить">Сохранить</button>
-          </>
-        )}
-      />
+       </PopupWithForm>
       <PopupWithForm 
         name="card"
         title="Новое место"
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
-        children={(
-          <>
+        buttonText="Создать">
             <input required id="place" placeholder="Название" type="text" name="name" className="popup__item" minLength="2" maxLength="30" />
             <span className="place-error popup__error"></span>
             <input required id="url" placeholder="Ссылка на картинку" type="url" name="link" className="popup__item" />
             <span className="url-error popup__error"></span>
-            <button type="submit" className="popup__save-btn button-opacity"
-              data-button-text="Создать" data-button-loading-text="Сохранение...">Создать</button>
-          </>
-        )}
-      />
+      </PopupWithForm>
       <PopupWithForm 
         name="avatar"
         title="Обновить аватар"
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
-        children={(
-          <>
+        buttonText="Сохранить">
             <input required id="link" placeholder="Ссылка на фото" type="url" name="link" className="popup__item" />
             <span className="link-error popup__error"></span>
-            <button type="submit" className="popup__save-btn button-opacity"
-              data-button-text="Создать" data-button-loading-text="Сохранение...">Создать</button>
-          </>
-        )}
-      />
+      </PopupWithForm>
       <ImagePopup
        card={selectedCard}
        onClose={closeAllPopups}
