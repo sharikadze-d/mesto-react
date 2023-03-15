@@ -2,7 +2,7 @@ import api from '../utils/api.js'
 import React from 'react';
 import Card from './Card.js';
 
-export default function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
+export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
 
   const [userName, setUserName] = React.useState('');
   const [userDescription, setUserDescription] = React.useState('');
@@ -50,7 +50,7 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar }) {
     <section className="elements">{
       cards.map((card) => {
         return(
-        <Card card={card} key={card._id} />)
+        <Card card={card} key={card._id} onCardClick={onCardClick} />)
       })
     }</section>
   </main>
