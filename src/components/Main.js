@@ -1,13 +1,17 @@
 import api from '../utils/api.js'
 import React from 'react';
 import Card from './Card.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
+
+  const user = React.useContext(CurrentUserContext);
+
   //State-переменные
-  const [userName, setUserName] = React.useState('');
-  const [userDescription, setUserDescription] = React.useState('');
-  const [userAvatar, setUserAvatar] = React.useState('');
-  const [cards, setCards] = React.useState([]);
+  const [userName, setUserName] = React.useState(''),
+        [userDescription, setUserDescription] = React.useState(''),
+        [userAvatar, setUserAvatar] = React.useState(''),
+        [cards, setCards] = React.useState([]);
 
 
 
