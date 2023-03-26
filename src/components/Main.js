@@ -8,23 +8,14 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
   const user = React.useContext(CurrentUserContext);
 
   //State-переменные
-  const [userName, setUserName] = React.useState(''),
-        [userDescription, setUserDescription] = React.useState(''),
-        [userAvatar, setUserAvatar] = React.useState(''),
-        [cards, setCards] = React.useState([]);
-
-
+  const [cards, setCards] = React.useState([]);
 
   //Наполнение страницы про загрузке
   React.useEffect(() => {
-    Promise.all([api.getUserData(), api.getInitialCardsData()])
-      .then(data => {
-        setUserName(data[0].name);
-        setUserDescription(data[0].about);
-        setUserAvatar(data[0].avatar);
-        setCards(data[1]);
+    api.getInitialCardsData()
+      .then(data => {    
+        setCards(data);
       })
-      
       .catch(() => {
         console.log(new Error('Ошибка загрузки'));
       })
@@ -35,14 +26,14 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
     <section className="profile">
       <div className="profile__inner">
         <div className="profile__avatar-wrapper" onClick={onEditAvatar}>
-          <img src={userAvatar} alt="Аватар профиля" className="profile__avatar" />
+          <img src={user.avatar} alt="Аватар профиля" className="profile__avatar" />
         </div>
         <div className="profile__info">
           <div className="profile__name-wrapper">
-            <h1 className="profile__name">{userName}</h1>
+            <h1 className="profile__name">{user.name}</h1>
             <button type="button" className="profile__edit-button opacity" onClick={onEditProfile}></button>
           </div>
-          <p className="profile__description">{userDescription}</p>
+          <p className="profile__description">{user.about}</p>
         </div>
       </div>
       <button type="button" className="profile__add-button opacity" onClick={onAddPlace}></button>
