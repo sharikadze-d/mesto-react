@@ -29,6 +29,14 @@ function App() {
         });
       }
 
+  function handleDeleteCard(card) {
+    api.deleteCard(card)
+      .then(deletedCard => {
+        let newCardsArr = cards.filter(card => card._id !== deletedCard._id)
+        setCards(newCardsArr);
+      })
+  }
+
   function handleCardChange(cards) {
     setCards(cards)
   }
@@ -79,6 +87,7 @@ function App() {
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
           onCardChange={handleCardChange}
+          onCardDelele={handleDeleteCard}
         />
         <Footer />
         <PopupWithForm 

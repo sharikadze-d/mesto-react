@@ -9,6 +9,7 @@ export default function Main({ onEditProfile,
                                onCardClick,
                                onCardLike,
                                onCardChange,
+                               onCardDelele,
                                cards }) {
 
   const user = React.useContext(CurrentUserContext);
@@ -48,7 +49,8 @@ export default function Main({ onEditProfile,
         <Card card={card}
               key={card._id}
               onCardClick={onCardClick}
-              onCardLike={onCardLike} />)
+              onCardLike={onCardLike}
+              onCardDelele={onCardDelele} />)
       })
     }</section>
   </main>

@@ -1,7 +1,7 @@
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import React from 'react';
 
-export default function Card({card, onCardClick, onCardLike}) {
+export default function Card({card, onCardClick, onCardLike, onCardDelele}) {
 
   const user = React.useContext(CurrentUserContext);
 
@@ -16,6 +16,10 @@ export default function Card({card, onCardClick, onCardLike}) {
     onCardLike(card);
   }
 
+  function handleDeleteCard() {
+    onCardDelele(card)
+  }
+
   //Обработка клика с передачей данных карточки
   function handleClick() { 
     onCardClick(card);
@@ -23,7 +27,7 @@ export default function Card({card, onCardClick, onCardLike}) {
 
   return (
     <article className="element">
-      {isOwn && <button type="button" className="element__delete-btn opacity"></button>}
+      {isOwn && <button type="button" className="element__delete-btn opacity" onClick={handleDeleteCard}></button>}
       <img src={card ? card.link : '#'} alt={card ? card.name : ''} className="element__image" onClick={handleClick}/>
       <div className="element__caption">
         <h2 className="element__title">{card ? card.name : ''}</h2>
