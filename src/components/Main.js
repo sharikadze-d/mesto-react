@@ -3,18 +3,21 @@ import React from 'react';
 import Card from './Card.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
-export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
+export default function Main({ onEditProfile,
+                               onAddPlace,
+                               onEditAvatar,
+                               onCardClick,
+                               onCardLike,
+                               onCardChange,
+                               cards }) {
 
   const user = React.useContext(CurrentUserContext);
-
-  //State-переменные
-  const [cards, setCards] = React.useState([]);
 
   //Наполнение страницы про загрузке
   React.useEffect(() => {
     api.getInitialCardsData()
       .then(data => {    
-        setCards(data);
+        onCardChange(data);
       })
       .catch(() => {
         console.log(new Error('Ошибка загрузки'));
@@ -42,7 +45,10 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
     <section className="elements">{
       cards.map((card) => { //Рендер карточек из массива с сервера
         return(
-        <Card card={card} key={card._id} onCardClick={onCardClick} />)
+        <Card card={card}
+              key={card._id}
+              onCardClick={onCardClick}
+              onCardLike={onCardLike} />)
       })
     }</section>
   </main>

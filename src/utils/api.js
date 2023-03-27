@@ -71,20 +71,10 @@ class Api {
     .then(handleResponse)
   }
 
-  //Отправка на сервер данных о нажатии на "лайк"
-  addLike( {_id} ) {
-    return fetch(`${this._url}/cards/${_id}/likes`, {
+  changeLikeCardStatus( card, isLiked) {
+    return fetch(`${this._url}/cards/${card._id}/likes`, {
       headers: this._headers,
-      method: 'PUT'
-    })
-    .then(handleResponse)
-  }
-
-  //Отправка на сервер данных о снятии лайка
-  removeLike( {_id} ) {
-    return fetch(`${this._url}/cards/${_id}/likes`, {
-      headers: this._headers,
-      method: 'DELETE'
+      method: `${isLiked ? 'DELETE' : 'PUT'}`
     })
     .then(handleResponse)
   }

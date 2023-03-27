@@ -15,7 +15,23 @@ function App() {
         [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false),
         [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false),
         [selectedCard, setSelectedCard] = React.useState(null),
-        [currentUser, setCurrentUser] = React.useState({});
+        [currentUser, setCurrentUser] = React.useState({}),
+        [cards, setCards] = React.useState([]);
+
+  function handleCardLike(card) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+          
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    api.changeLikeCardStatus(card, isLiked)
+      .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        });
+      }
+
+  function handleCardChange(cards) {
+    setCards(cards)
+  }
 
   
   //Обработчики кликов
@@ -56,10 +72,13 @@ function App() {
       <div className="page__inner">
         <Header />
         <Main 
+          cards={cards}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
+          onCardChange={handleCardChange}
         />
         <Footer />
         <PopupWithForm 
