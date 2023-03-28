@@ -1,11 +1,12 @@
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
 import Header from './Header';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import api from '../utils/api.js';
 import PopupWithForm from './PopupWithForm';
+import EditProfilePopup from './EditProfilePopup';
 import React from 'react';
 import ImagePopup from './ImagePopup';
-import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
 
 function App() {
 
@@ -41,6 +42,11 @@ function App() {
     setCards(cards)
   }
 
+  function handleUpdateUser({ name, about}) {
+    api.setUserData({ name, about })
+      .then(() => { setCurrentUser({...currentUser, name, about}); })
+      .then(() => { setIsEditProfilePopupOpen(false); })
+  }
   
   //Обработчики кликов
   function handleEditAvatarClick() {
@@ -90,17 +96,11 @@ function App() {
           onCardDelele={handleDeleteCard}
         />
         <Footer />
-        <PopupWithForm 
-          name="profile"
-          title="Редактировать профиль"
+        <EditProfilePopup 
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-          buttonText="Сохранить">
-              <input required id="name" type="text" name="name" placeholder="Имя" className="popup__item" minLength="2" maxLength="40" />
-              <span className="name-error popup__error"></span>
-              <input required id="job" type="text" name="about" placeholder="Профессия" className="popup__item" minLength="2" maxLength="200" />
-              <span className="job-error popup__error"></span>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
         <PopupWithForm 
           name="card"
           title="Новое место"
