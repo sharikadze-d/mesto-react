@@ -80,7 +80,7 @@ class Api {
   }
 
   //установка аватара
-  setAvatar( {link} ) {
+  setAvatar( link ) {
     return fetch(`${this._url}/users/me/avatar`, {
       headers: this._headers,
       method: 'PATCH',

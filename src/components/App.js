@@ -7,6 +7,7 @@ import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
 import React from 'react';
 import ImagePopup from './ImagePopup';
+import EditAvatarPopup from './EditAvatarPopup.js';
 
 function App() {
 
@@ -40,6 +41,12 @@ function App() {
 
   function handleCardChange(cards) {
     setCards(cards)
+  }
+
+  function handleUpdateAvatar(link) {
+    api.setAvatar(link)
+      .then(() => { setCurrentUser({...currentUser, avatar: link}); })
+      .then(() => { setIsEditAvatarPopupOpen(false); })
   }
 
   function handleUpdateUser({ name, about}) {
@@ -112,31 +119,16 @@ function App() {
               <input required id="url" placeholder="Ссылка на картинку" type="url" name="link" className="popup__item" />
               <span className="url-error popup__error"></span>
         </PopupWithForm>
-        <PopupWithForm 
-          name="avatar"
-          title="Обновить аватар"
+        <EditAvatarPopup 
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-          buttonText="Сохранить">
-              <input required id="link" placeholder="Ссылка на фото" type="url" name="link" className="popup__item" />
-              <span className="link-error popup__error"></span>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
         <ImagePopup
         card={selectedCard}
         onClose={closeAllPopups}
         isOpen={isImagePopupOpen}
         />
-      
-        {/* <div className="popup popup_type_confirm">
-          <div className="popup__container">
-            <button type="button" className="popup__close-btn opacity"></button>
-            <form className="popup__form" name="confirm-form" noValidate>
-              <h3 className="popup__title">Вы уверены?</h3>
-              <button type="submit" className="popup__save-btn button-opacity"
-              data-button-text="Да" data-button-loading-text="Удаление...">Да</button>
-          </form>
-          </div>
-        </div> */}
       </div>
     </CurrentUserContext.Provider>
   );
