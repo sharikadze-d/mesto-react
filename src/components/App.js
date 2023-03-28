@@ -20,6 +20,7 @@ function App() {
         [currentUser, setCurrentUser] = React.useState({}),
         [cards, setCards] = React.useState([]);
 
+  //Обработчик кнопки лайка
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -31,6 +32,7 @@ function App() {
         });
       }
 
+  //Обработчик кнопки удаления
   function handleDeleteCard(card) {
     api.deleteCard(card)
       .then(deletedCard => {
@@ -39,18 +41,21 @@ function App() {
       })
   }
 
+  //Обаботчик обновления автара
   function handleUpdateAvatar(link) {
     api.setAvatar(link)
       .then(() => { setCurrentUser({...currentUser, avatar: link}); })
       .then(() => { setIsEditAvatarPopupOpen(false); })
   }
 
+  //Обработчик обновления данных пользователя
   function handleUpdateUser({ name, about}) {
     api.setUserData({ name, about })
       .then(() => { setCurrentUser({...currentUser, name, about}); })
       .then(() => { setIsEditProfilePopupOpen(false); })
   }
 
+  //Обработчик добавления нового места
   function handleAddPlace({ name, link }) {
     api.setCardData({ name, link })
       .then((newCard) => { setCards([newCard, ...cards])})
@@ -83,6 +88,7 @@ function App() {
     setSelectedCard(null);
   }
 
+  //Наполнение страницы при загрузке
   React.useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCardsData()])
       .then(res => {

@@ -5,14 +5,17 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
 
 export default function EditProfilePopup({ isOpen, onClose, onUpdateUser}) {
   const user = React.useContext(CurrentUserContext),
+        //Стейт переменные привязанные к полям ввода
         [name, setName] = React.useState(''),
         [description, setDescription] = React.useState('');
 
+  //Заполнение полей попапа
   React.useEffect(() => {
     setName(user.name ? user.name : '');
     setDescription(user.about ? user.about : '');
   }, [user]); 
 
+  //Два обработчика изменений в полях ввода
   function handleChangeName(evt) {
     setName(evt.target.value);
   }
@@ -21,6 +24,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser}) {
     setDescription(evt.target.value);
   }
 
+  //Обаботчик отправки формы
   function handleSubmit(evt) {
     evt.preventDefault();
     onUpdateUser({ name: name, about: description });

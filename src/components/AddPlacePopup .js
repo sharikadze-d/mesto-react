@@ -5,6 +5,7 @@ export default function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
   const nameRef = React.useRef(),
         linkRef = React.useRef();
 
+  //Обработчик отправки формы
   function handleSubmit(evt) {
     evt.preventDefault();
     onAddPlace({ name: nameRef.current.value,

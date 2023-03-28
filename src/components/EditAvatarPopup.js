@@ -4,6 +4,7 @@ import React from "react";
 export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   const linkRef = React.useRef();
 
+  //Обработчик отправки формы
   function handleSubmit(evt) {
     evt.preventDefault();
     onUpdateAvatar(linkRef.current.value)
