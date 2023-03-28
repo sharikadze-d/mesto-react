@@ -3,11 +3,11 @@ import Header from './Header';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import api from '../utils/api.js';
-import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
 import React from 'react';
 import ImagePopup from './ImagePopup';
 import EditAvatarPopup from './EditAvatarPopup.js';
+import AddPlacePopup from './AddPlacePopup .js';
 
 function App() {
 
@@ -39,10 +39,6 @@ function App() {
       })
   }
 
-  function handleCardChange(cards) {
-    setCards(cards)
-  }
-
   function handleUpdateAvatar(link) {
     api.setAvatar(link)
       .then(() => { setCurrentUser({...currentUser, avatar: link}); })
@@ -53,6 +49,12 @@ function App() {
     api.setUserData({ name, about })
       .then(() => { setCurrentUser({...currentUser, name, about}); })
       .then(() => { setIsEditProfilePopupOpen(false); })
+  }
+
+  function handleAddPlace({ name, link }) {
+    api.setCardData({ name, link })
+      .then((newCard) => { setCards([newCard, ...cards])})
+      .then(() => { setIsAddPlacePopupOpen(false) })
   }
   
   //Обработчики кликов
@@ -82,10 +84,14 @@ function App() {
   }
 
   React.useEffect(() => {
-    api.getUserData()
-    .then(res => {
-      setCurrentUser(res);
-    })
+    Promise.all([api.getUserData(), api.getInitialCardsData()])
+      .then(res => {
+        setCurrentUser(res[0]);
+        setCards(res[1]);
+      })
+      .catch(() => {
+        console.log(new Error('Ошибка загрузки'));
+      })
   }, [])
 
   return (
@@ -99,7 +105,6 @@ function App() {
           onEditAvatar={handleEditAvatarClick}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
-          onCardChange={handleCardChange}
           onCardDelele={handleDeleteCard}
         />
         <Footer />
@@ -108,17 +113,11 @@ function App() {
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
         />
-        <PopupWithForm 
-          name="card"
-          title="Новое место"
+        <AddPlacePopup 
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-          buttonText="Создать">
-              <input required id="place" placeholder="Название" type="text" name="name" className="popup__item" minLength="2" maxLength="30" />
-              <span className="place-error popup__error"></span>
-              <input required id="url" placeholder="Ссылка на картинку" type="url" name="link" className="popup__item" />
-              <span className="url-error popup__error"></span>
-        </PopupWithForm>
+          onAddPlace={handleAddPlace}
+        />
         <EditAvatarPopup 
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}

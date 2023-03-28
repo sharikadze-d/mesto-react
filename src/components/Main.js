@@ -8,22 +8,10 @@ export default function Main({ onEditProfile,
                                onEditAvatar,
                                onCardClick,
                                onCardLike,
-                               onCardChange,
                                onCardDelele,
                                cards }) {
 
   const user = React.useContext(CurrentUserContext);
-
-  //Наполнение страницы про загрузке
-  React.useEffect(() => {
-    api.getInitialCardsData()
-      .then(data => {    
-        onCardChange(data);
-      })
-      .catch(() => {
-        console.log(new Error('Ошибка загрузки'));
-      })
-  } , [])
 
   return (
   <main className="content">
