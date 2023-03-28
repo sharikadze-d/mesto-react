@@ -29,37 +29,42 @@ function App() {
     api.changeLikeCardStatus(card, isLiked)
       .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-        });
+        })
+      .catch(() => { console.log(new Error('Ошибка загрузки')); })
       }
 
   //Обработчик кнопки удаления
   function handleDeleteCard(card) {
     api.deleteCard(card)
       .then(deletedCard => {
-        let newCardsArr = cards.filter(card => card._id !== deletedCard._id)
+        const newCardsArr = cards.filter(card => card._id !== deletedCard._id)
         setCards(newCardsArr);
       })
+      .catch(() => { console.log(new Error('Ошибка загрузки')); })
   }
 
   //Обаботчик обновления автара
   function handleUpdateAvatar(link) {
     api.setAvatar(link)
       .then(() => { setCurrentUser({...currentUser, avatar: link}); })
-      .then(() => { setIsEditAvatarPopupOpen(false); })
+      .then(() => { closeAllPopups(); })
+      .catch(() => { console.log(new Error('Ошибка загрузки')); })
   }
 
   //Обработчик обновления данных пользователя
   function handleUpdateUser({ name, about}) {
     api.setUserData({ name, about })
       .then(() => { setCurrentUser({...currentUser, name, about}); })
-      .then(() => { setIsEditProfilePopupOpen(false); })
+      .then(() => { closeAllPopups(); })
+      .catch(() => { console.log(new Error('Ошибка загрузки')); })
   }
 
   //Обработчик добавления нового места
   function handleAddPlace({ name, link }) {
     api.setCardData({ name, link })
       .then((newCard) => { setCards([newCard, ...cards])})
-      .then(() => { setIsAddPlacePopupOpen(false) })
+      .then(() => { closeAllPopups(); })
+      .catch(() => { console.log(new Error('Ошибка загрузки')); })
   }
   
   //Обработчики кликов

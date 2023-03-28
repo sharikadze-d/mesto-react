@@ -17,3 +17,5 @@
 * Работа с API
 
 Верстка полностью валидна, фаловая структура по БЭМ (Nested).
+
+Проект на [GitHub Pages](https://sharikadze-d.github.io/mesto-react/)
