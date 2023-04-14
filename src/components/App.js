@@ -8,6 +8,9 @@ import React from 'react';
 import ImagePopup from './ImagePopup';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup .js';
+import { Routes, Route } from 'react-router-dom';
+import Login from './Login.js';
+import Register from './Register.js';
 
 function App() {
 
@@ -109,15 +112,20 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__inner">
         <Header />
-        <Main 
-          cards={cards}
-          onEditProfile={handleEditProfileClick}
-          onAddPlace={handleAddPlaceClick}
-          onEditAvatar={handleEditAvatarClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelele={handleDeleteCard}
-        />
+        <Routes>
+          <Route path="/" element={
+            <Main 
+              cards={cards}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelele={handleDeleteCard}
+            ></Main>} />
+          <Route path="/sign-up" element={<Register />} />
+          <Route path="/sign-in" element={<Login />} />
+        </Routes>
         <Footer />
         <EditProfilePopup 
           isOpen={isEditProfilePopupOpen}
