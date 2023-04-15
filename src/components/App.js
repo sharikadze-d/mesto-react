@@ -12,7 +12,6 @@ import { Routes, Route} from 'react-router-dom';
 import Login from './Login.js';
 import Register from './Register.js';
 import ProtectedRoute from './ProtectedRoute.js';
-import InfoTooltip from './InfoTooltip.js';
 
 function App() {
   //State-переменные
@@ -20,11 +19,10 @@ function App() {
         [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false),
         [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false),
         [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false),
-        [isInfoPopupOpen, setIsInfoPopupOpen] = React.useState(false),
         [selectedCard, setSelectedCard] = React.useState(null),
         [currentUser, setCurrentUser] = React.useState({}),
         [cards, setCards] = React.useState([]),
-        [loggedIn, setLoggedIn] = useState(true);
+        [loggedIn, setLoggedIn] = useState(false);
 
   //Обработчик кнопки лайка
   function handleCardLike(card) {
@@ -96,7 +94,6 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
-    setIsInfoPopupOpen(false);
     setSelectedCard(null);
   }
 
@@ -179,11 +176,6 @@ function App() {
         onClose={closeAllPopups}
         isOpen={isImagePopupOpen}
         />
-
-        <InfoTooltip 
-          isRegistred={true}
-          isOpen={isInfoPopupOpen}
-          onClose={closeAllPopups} />
       </div>
     </CurrentUserContext.Provider>
   );
