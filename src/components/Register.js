@@ -1,13 +1,15 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../utils/auth.js'
-import React from 'react';
+import { useState, useRef} from 'react';
 import InfoTooltip from './InfoTooltip.js'
 
 export default function Register () {
-  const [isInfoPopupOpen, setIsInfoPopupOpen] = React.useState(false),
-        [isRegistred, setIsRegistred] = React.useState(false),
-        emailRef = React.useRef(),
-        passwordRef = React.useRef();
+  const [isInfoPopupOpen, setIsInfoPopupOpen] = useState(false),
+        [isRegistred, setIsRegistred] = useState(false),
+        emailRef = useRef(),
+        passwordRef = useRef(),
+        navigate = useNavigate();
+
   
   function openInfoTooltip() {
     setIsInfoPopupOpen(true);
@@ -15,6 +17,7 @@ export default function Register () {
 
   function closeInfoTooltip() {
     setIsInfoPopupOpen(false);
+    isRegistred && navigate('/sign-in', {replace: true});
   }
 
 

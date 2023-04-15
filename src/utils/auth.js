@@ -19,3 +19,25 @@ export function register (email, password) {
   })
   .then(handleResponse)
 }
+
+export function authorize (email, password) {
+  return fetch(`${BASE_URL}/signin`, {
+    headers: { "Content-Type": "application/json" },
+    method: 'POST',
+    body: JSON.stringify({
+      password: password,
+      email: email
+    })
+  })
+  .then(handleResponse)
+}
+
+export function getUserData(token) {
+  return fetch(`${BASE_URL}/users/me`, {
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization" : `Bearer ${token}` },
+    method: 'GET'
+  })
+  .then(handleResponse)
+}

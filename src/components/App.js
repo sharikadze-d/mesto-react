@@ -8,21 +8,25 @@ import React, { useState } from 'react';
 import ImagePopup from './ImagePopup';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup .js';
-import { Routes, Route} from 'react-router-dom';
+import { Routes, Route, useNavigate} from 'react-router-dom';
 import Login from './Login.js';
 import Register from './Register.js';
 import ProtectedRoute from './ProtectedRoute.js';
+import { getUserData } from '../utils/auth.js'
 
 function App() {
   //State-переменные
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false),
-        [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false),
-        [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false),
-        [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false),
-        [selectedCard, setSelectedCard] = React.useState(null),
-        [currentUser, setCurrentUser] = React.useState({}),
-        [cards, setCards] = React.useState([]),
-        [loggedIn, setLoggedIn] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false),
+        [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false),
+        [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false),
+        [isImagePopupOpen, setIsImagePopupOpen] = useState(false),
+        [selectedCard, setSelectedCard] = useState(null),
+        [currentUser, setCurrentUser] = useState({}),
+        [cards, setCards] = useState([]),
+        [loggedIn, setLoggedIn] = useState(false),
+        [userEmail, setUserEmail] = useState('');
+
+  const navigate = useNavigate();
 
   //Обработчик кнопки лайка
   function handleCardLike(card) {
@@ -107,11 +111,35 @@ function App() {
       .catch(() => {
         console.log(new Error('Ошибка загрузки'));
       })
+    
+    loggedIn ? navigate('/', {replace: true}) : navigate('/sign-up', {replace: true});
+    tokenCheck();
   }, [])
 
-  function logout() {
-    setLoggedIn(false);
+  function tokenCheck() {
+    const token = localStorage.getItem('jwt');
+    if (!token) {
+      return;
+    }
+    getUserData(token)
+      .then(res => { 
+        if (res) {
+          handleLogIn(res.data.email);
+          navigate('/');
+        }
+       })
   }
+
+  function handleLogOut() {
+    setLoggedIn(false);
+    localStorage.removeItem('jwt')
+  }
+
+  function handleLogIn(email) {
+    setLoggedIn (true);
+    setUserEmail(email);
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__inner">
@@ -121,8 +149,8 @@ function App() {
               <ProtectedRoute 
                 element={Header}
                 loggedIn={loggedIn}
-                userMail={"fafa@mail.ru"}
-                onExitClick={logout}
+                userMail={userEmail}
+                onExitClick={handleLogOut}
               />
               <ProtectedRoute
                 element={Main}
@@ -152,7 +180,9 @@ function App() {
                 loggedIn={loggedIn}
                 buttonText={"Зарегистрироваться"}
                 buttonLink={"/sign-up"}/>
-              <Login />
+              <Login 
+                handleLogIn={handleLogIn}
+              />
             </>} />
         </Routes>
         <Footer />
