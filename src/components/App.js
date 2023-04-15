@@ -8,10 +8,11 @@ import React, { useState } from 'react';
 import ImagePopup from './ImagePopup';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup .js';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route} from 'react-router-dom';
 import Login from './Login.js';
 import Register from './Register.js';
 import ProtectedRoute from './ProtectedRoute.js';
+import InfoTooltip from './InfoTooltip.js';
 
 function App() {
   //State-переменные
@@ -19,6 +20,7 @@ function App() {
         [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false),
         [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false),
         [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false),
+        [isInfoPopupOpen, setIsInfoPopupOpen] = React.useState(false),
         [selectedCard, setSelectedCard] = React.useState(null),
         [currentUser, setCurrentUser] = React.useState({}),
         [cards, setCards] = React.useState([]),
@@ -94,6 +96,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsImagePopupOpen(false);
+    setIsInfoPopupOpen(false);
     setSelectedCard(null);
   }
 
@@ -176,6 +179,11 @@ function App() {
         onClose={closeAllPopups}
         isOpen={isImagePopupOpen}
         />
+
+        <InfoTooltip 
+          isRegistred={true}
+          isOpen={isInfoPopupOpen}
+          onClose={closeAllPopups} />
       </div>
     </CurrentUserContext.Provider>
   );
