@@ -10,17 +10,18 @@ export default function Register () {
         passwordRef = useRef(),
         navigate = useNavigate();
 
-  
+  //Открыть уведомление
   function openInfoTooltip() {
     setIsInfoPopupOpen(true);
   }
 
+  //Закрыть уведомление
   function closeInfoTooltip() {
     setIsInfoPopupOpen(false);
     isRegistred && navigate('/sign-in', {replace: true});
   }
 
-
+  //Обработчик отправки формы
   function handleSubmit (evt) {
     evt.preventDefault();
     const email = emailRef.current.value,

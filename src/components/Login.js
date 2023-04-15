@@ -7,6 +7,7 @@ export default function Login ({ handleLogIn }) {
         passwordRef = useRef(),
         navigate = useNavigate();
 
+  //Обработчик отправки формы
   function handleSubmit(evt) {
     evt.preventDefault();
     const email = emailRef.current.value,

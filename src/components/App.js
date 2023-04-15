@@ -116,6 +116,7 @@ function App() {
     tokenCheck();
   }, [])
 
+  //Проверка токена
   function tokenCheck() {
     const token = localStorage.getItem('jwt');
     if (!token) {
@@ -130,11 +131,13 @@ function App() {
        })
   }
 
+  //Обработчик входа
   function handleLogOut() {
     setLoggedIn(false);
     localStorage.removeItem('jwt')
   }
 
+  //Обработчик выхода
   function handleLogIn(email) {
     setLoggedIn (true);
     setUserEmail(email);
