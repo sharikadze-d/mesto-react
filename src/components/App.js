@@ -11,6 +11,7 @@ import AddPlacePopup from './AddPlacePopup .js';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login.js';
 import Register from './Register.js';
+import ProtectedRoute from './ProtectedRoute.js';
 
 function App() {
   //State-переменные
@@ -21,7 +22,7 @@ function App() {
         [selectedCard, setSelectedCard] = React.useState(null),
         [currentUser, setCurrentUser] = React.useState({}),
         [cards, setCards] = React.useState([]),
-        [loggedIn, setLoggedIn] = useState(false);
+        [loggedIn, setLoggedIn] = useState(true);
 
   //Обработчик кнопки лайка
   function handleCardLike(card) {
@@ -115,13 +116,17 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__inner">
         <Routes>
-          <Route path="/" element={ loggedIn ?
+          <Route path="/" element={
             <>
-              <Header 
+              <ProtectedRoute 
+                element={Header}
                 loggedIn={loggedIn}
                 userMail={"fafa@mail.ru"}
-                onExitClick={logout}/>
-              <Main 
+                onExitClick={logout}
+              />
+              <ProtectedRoute
+                element={Main}
+                loggedIn={loggedIn}
                 cards={cards}
                 onEditProfile={handleEditProfileClick}
                 onAddPlace={handleAddPlaceClick}
@@ -130,9 +135,9 @@ function App() {
                 onCardLike={handleCardLike}
                 onCardDelele={handleDeleteCard}
               />
-            </> : 
-            <Navigate to="/sign-up" />
-            } />
+            </>
+            }/>
+      
           <Route path="/sign-up" element={
             <>
               <Header
