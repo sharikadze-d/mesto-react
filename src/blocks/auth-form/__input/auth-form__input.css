@@ -8,6 +8,7 @@
   line-height: 17px;
   color: #ccc;
   padding-bottom: 8px;
+  outline: none;
 }
 
 .auth-form__input:last-of-type {

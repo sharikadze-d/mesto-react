@@ -4,16 +4,15 @@ import Main from './Main.js';
 import Footer from './Footer.js';
 import api from '../utils/api.js';
 import EditProfilePopup from './EditProfilePopup';
-import React from 'react';
+import React, { useState } from 'react';
 import ImagePopup from './ImagePopup';
 import EditAvatarPopup from './EditAvatarPopup.js';
 import AddPlacePopup from './AddPlacePopup .js';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login.js';
 import Register from './Register.js';
 
 function App() {
-
   //State-переменные
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false),
         [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false),
@@ -21,7 +20,8 @@ function App() {
         [isImagePopupOpen, setIsImagePopupOpen] = React.useState(false),
         [selectedCard, setSelectedCard] = React.useState(null),
         [currentUser, setCurrentUser] = React.useState({}),
-        [cards, setCards] = React.useState([]);
+        [cards, setCards] = React.useState([]),
+        [loggedIn, setLoggedIn] = useState(false);
 
   //Обработчик кнопки лайка
   function handleCardLike(card) {
@@ -108,23 +108,47 @@ function App() {
       })
   }, [])
 
+  function logout() {
+    setLoggedIn(false);
+  }
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__inner">
-        <Header />
         <Routes>
-          <Route path="/" element={
-            <Main 
-              cards={cards}
-              onEditProfile={handleEditProfileClick}
-              onAddPlace={handleAddPlaceClick}
-              onEditAvatar={handleEditAvatarClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelele={handleDeleteCard}
-            ></Main>} />
-          <Route path="/sign-up" element={<Register />} />
-          <Route path="/sign-in" element={<Login />} />
+          <Route path="/" element={ loggedIn ?
+            <>
+              <Header 
+                loggedIn={loggedIn}
+                userMail={"fafa@mail.ru"}
+                onExitClick={logout}/>
+              <Main 
+                cards={cards}
+                onEditProfile={handleEditProfileClick}
+                onAddPlace={handleAddPlaceClick}
+                onEditAvatar={handleEditAvatarClick}
+                onCardClick={handleCardClick}
+                onCardLike={handleCardLike}
+                onCardDelele={handleDeleteCard}
+              />
+            </> : 
+            <Navigate to="/sign-up" />
+            } />
+          <Route path="/sign-up" element={
+            <>
+              <Header
+                loggedIn={loggedIn}
+                buttonText={"Войти"}
+                buttonLink={"/sign-in"}/>
+              <Register />
+            </>} />
+          <Route path="/sign-in" element={
+            <>
+              <Header 
+                loggedIn={loggedIn}
+                buttonText={"Зарегистрироваться"}
+                buttonLink={"/sign-up"}/>
+              <Login />
+            </>} />
         </Routes>
         <Footer />
         <EditProfilePopup 
